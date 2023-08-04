@@ -29,14 +29,14 @@ public class TransferMoneySteps {
         dashboardPage = verificationPage.validVerify(verificationCode);
     }
 
-    @Когда("пользователь переводит {int} рублей с карты с номером {string} на свою 1 карту с главной страницы")
+    @Когда("пользователь переводит {string} рублей с карты с номером {string} на свою {string} карту с главной страницы")
     public void transferMoney(String amount, String cardNumber, String cardIndex) {
         refillCardPage = dashboardPage.selectCard(cardIndex);
         dashboardPage = refillCardPage.refillCard(amount, cardNumber);
     }
 
-    @Тогда("баланс его 1 карты из списка на главной странице должен стать {int} рублей")
+    @Тогда("баланс его {string} карты из списка на главной странице должен стать {string} рублей")
     public void totalBalance(String cardIndex, String balance) {
-        Assertions.assertEquals(cardIndex, balance);
+        dashboardPage.firstBalanceCard(cardIndex, balance);
     }
 }

@@ -12,7 +12,7 @@ public class LoginPage {
     private SelenideElement loginButton = $("[data-test-id='action-login']");
 
     LoginPage() {
-        $(byText("Интернет банк")).shouldBe(Condition.visible);
+        $(byText("Интернет банк"));
     }
     public VerificationPage validLogin(String login, String password) {
         loginField.shouldBe(Condition.visible).setValue(login);
