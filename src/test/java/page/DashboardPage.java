@@ -24,16 +24,20 @@ public class DashboardPage {
         heading.shouldBe(visible);
     }
 
-    public RefillCardPage selectCard(String cardIndex) {
-        cards.get(Integer.parseInt(cardIndex) - 1).find("button").click();
+    private int extractBalance(String text) {
+        val start = text.indexOf(balanceStart);
+        val finish = text.indexOf(balanceFinish);
+        val value = text.substring(start + balanceStart.length(), finish);
+        return Integer.parseInt(value);
+    }
+
+    public RefillCardPage selectCard(int cardIndex) {
+        cards.get(cardIndex - 1).find("button").click();
         return new RefillCardPage();
     }
 
-    public void firstBalanceCard(String index, String balance) {
-        if (index == "1") {
-            $(withText(balance)).shouldHave(attribute("data-test-id", "92df3f1c-a033-48e6-8390-206f6b1f56c0"));
-        } else if (index == "2") {
-            $(withText(balance)).shouldHave(attribute("data-test-id", "0f3f5c2a-249e-4c3d-8287-09f7a039391d"));
-        }
+    public int firstBalanceCard(int cardIndex) {
+        var text = cards.get(cardIndex - 1).getText();
+        return extractBalance(text);
     }
 }

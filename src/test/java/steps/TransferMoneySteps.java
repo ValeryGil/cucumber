@@ -6,6 +6,7 @@ import io.cucumber.java.ru.И;
 import io.cucumber.java.ru.Когда;
 import io.cucumber.java.ru.Пусть;
 import io.cucumber.java.ru.Тогда;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import page.DashboardPage;
 import page.LoginPage;
@@ -29,14 +30,16 @@ public class TransferMoneySteps {
         dashboardPage = verificationPage.validVerify(verificationCode);
     }
 
-    @Когда("пользователь переводит {string} рублей с карты с номером {string} на свою {string} карту с главной страницы")
-    public void transferMoney(String amount, String cardNumber, String cardIndex) {
+    @Когда("пользователь переводит {int} рублей с карты с номером {string} на свою {int} карту с главной страницы")
+    public void transferMoney(int amount, String cardNumber, int cardIndex) {
         refillCardPage = dashboardPage.selectCard(cardIndex);
-        dashboardPage = refillCardPage.refillCard(amount, cardNumber);
+        dashboardPage = refillCardPage.refillCard(String.valueOf(amount), cardNumber);
     }
 
-    @Тогда("баланс его {string} карты из списка на главной странице должен стать {string} рублей")
-    public void totalBalance(String cardIndex, String balance) {
-        dashboardPage.firstBalanceCard(cardIndex, balance);
+    @Тогда("баланс его {int} карты из списка на главной странице должен стать {int} рублей")
+    public void totalBalance(int cardIndex, int balance) {
+        int actualBalance = dashboardPage.firstBalanceCard(cardIndex);
+        int expectedBalance = balance;
+        Assert.assertEquals(expectedBalance, actualBalance);
     }
 }
